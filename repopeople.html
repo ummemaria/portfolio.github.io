@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
+    <title>RepoPeople</title>
+    <style>
+        #repo{
+            display: inline;
+            text-align: center;
+        }
+        
+        
+    </style>
+    
+</head>
+<body>
+    <div class="text-center">
+
+    <button class="btn btn-primary" style="margin-top:15px" id="button">Show All Users</button>
+    </div>
+    <br>
+    <div>
+        <p id="repo">
+
+        </p>
+    </div>
+
+    <script>
+        document.getElementById('button').addEventListener('click', showData);
+        function showData() {
+            var req = new XMLHttpRequest();
+            req.open('GET', 'https://api.github.com/users', true);
+            req.onload = function(){
+                if(req.status==200){
+                    var people = JSON.parse(req.responseText)
+                    var output= '<h2>'+ 'Github Users : ' +'</h2>';
+                    for(var i in people){
+                    output +=
+                    '<table>'+
+                    '  <tr>'+
+                    '    <th>Image</th>'+
+                    '    <th>LogIn</th>'+
+                    '    <th>ID</th>'+
+                    '  </tr>'+
+                    '  <tr>'+
+                    '    <td>'+'<img src="'+people[i].avatar_url+'" width="100px" height="100px">'+'</td>'+
+                    '    <td>'+people[i].login+'</td>'+
+                    '    <td>'+people[i].id+'</td>'+
+                    '  </tr>'+
+                    '  '+
+                    '  '+
+                    '</table>';
+                    
+                    }
+                    document.getElementById('repo').innerHTML=output;
+                }
+            }
+            req.send();
+        }
+    </script>
+</body>
+</html>
